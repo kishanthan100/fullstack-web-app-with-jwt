@@ -106,12 +106,13 @@ const Login = () => {
         
         <p className="mt-6 text-center text-sm text-zinc-100">
           Don't have an account?{' '}
-          <a 
-            href="/register" 
-            className="text-emerald-700 hover:text-emerald-800 font-medium transition duration-200"
+          <span
+            onClick={() => navigate("/register")}
+            className="text-emerald-600 cursor-pointer hover:text-emerald-400 underline0 underline "
           >
             Register here
-          </a>
+          </span>
+          
         </p>
       </div>
     </div>

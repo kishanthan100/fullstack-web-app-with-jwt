@@ -7,7 +7,7 @@ class Item(Base):
     id = Column(Integer, primary_key=True, index=True)
     item_name = Column(String, index=True)
     category = Column(String, index=True)
-    img_url = Column(String, index=True)
+    
 
 
 class User(Base):

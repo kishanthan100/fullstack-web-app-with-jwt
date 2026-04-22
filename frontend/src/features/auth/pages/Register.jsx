@@ -174,7 +174,7 @@ function Register() {
           Already have an account?{" "}
           <span
             onClick={() => navigate("/")}
-            className="text-emerald-900 cursor-pointer hover:text-emerald-400 underline "
+            className="text-emerald-600 cursor-pointer hover:text-emerald-400 underline "
           >
             Login
           </span>

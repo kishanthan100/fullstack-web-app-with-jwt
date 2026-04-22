@@ -53,18 +53,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchCurrentUser();
-  // }, []);
-
-  let authChecked = false;
-
   useEffect(() => {
-  if (!authChecked) {
     fetchCurrentUser();
-    authChecked = true;
-  }
-}, []);
+  }, []);
+
+//   let authChecked = false;
+
+//   useEffect(() => {
+//   if (!authChecked) {
+//     fetchCurrentUser();
+//     authChecked = true;
+//   }
+// }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading, login, logout, register }}>

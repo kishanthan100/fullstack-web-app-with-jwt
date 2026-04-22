@@ -2,12 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException,Request
 from sqlalchemy.orm import Session
 from app.services.postgres.item_service import ItemService
 from app.db.postgres import get_db
+from app.core.security import get_current_user
 
 
 router = APIRouter()
 
 @router.post("/list-items/")
-def list_all_items(db: Session = Depends(get_db)):
+def list_all_items(db: Session = Depends(get_db),
+                   current_user: str = Depends(get_current_user)):
     service = ItemService(db)
     try:
         return service.get_all_items()
