@@ -3,6 +3,7 @@ import { useState } from "react";
 
 const Sidebar = ({ isOpen }) => {
   const [itemOpen, setItemOpen] = useState(false);
+  const [stockOpen, setStockOpen] = useState(false);
 
   const baseStyle =
     "block px-4 py-2 rounded-lg transition duration-200";
@@ -88,6 +89,51 @@ const Sidebar = ({ isOpen }) => {
               >
                 Add Item
               </NavLink>
+              
+
+              
+            </div>
+          )}
+
+          {/* Stock Parent */}
+          <button
+            onClick={() => setStockOpen(!stockOpen)}
+            className={`${baseStyle} hover:bg-emerald-600 w-full text-left`}
+          >
+            Stock
+          </button>
+
+          {/* Sub Menu */}
+          {stockOpen && (
+            <div className="ml-4 space-y-1">
+              <NavLink
+                to="/list-stock"
+                className={({ isActive }) =>
+                  `${baseStyle} text-sm ${
+                    isActive
+                      ? "bg-white text-emerald-900 font-semibold"
+                      : "hover:bg-emerald-600"
+                  }`
+                }
+              >
+                Stock List
+              </NavLink>
+
+              <NavLink
+                to="/create-items"
+                className={({ isActive }) =>
+                  `${baseStyle} text-sm ${
+                    isActive
+                      ? "bg-white text-emerald-900 font-semibold"
+                      : "hover:bg-emerald-600"
+                  }`
+                }
+              >
+                Create Stock
+              </NavLink>
+              
+
+              
             </div>
           )}
 

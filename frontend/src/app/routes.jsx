@@ -8,6 +8,7 @@ import Register from "../features/auth/pages/Register";
 import AllLogsOfOneUser from "../features/user/pages/AllLogsOfOneUser";
 import ListItems from "../features/items/pages/ListItems";
 import CreateItems from "../features/items/pages/CreateItems";
+import ListStocks from  "../features/stock/pages/ListStocks"
 
 export default function AppRoutes() {
   return (
@@ -27,6 +28,7 @@ export default function AppRoutes() {
         <Route path="/my-logs" element={<AllLogsOfOneUser />} />
         <Route path="/list-items" element={<ListItems />} />
         <Route path="/create-items" element={<CreateItems />} />
+        <Route path="/list-stock" element={<ListStocks />} />
       </Route>
     </Routes>
   );
