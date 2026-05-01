@@ -1,58 +1,37 @@
-// import { useState } from "react";
-// import { allListStocks } from "../hooks/stockList";
-
-// const StockListPage = () => {
-//   const { logs, loading, error } = allListStocks();
-   
-
-//   if (loading) return <p className="text-gray-500">Loading...</p>;
-//   if (error) return <p className="text-red-500">{error}</p>;
-
-//   return (
-//     <div className="p-6" >
-//       <h2 className="text-2xl text-emerald-900 font-semibold mb-4">Stock List</h2>
-
-//       <div className="overflow-x-auto">
-//         <table className="min-w-full border border-gray-200 rounded-lg shadow-sm">
-//           <thead className="bg-emerald-700">
-//             <tr>
-//               <th className="px-4 py-2 text-left text-sm font-medium text-white">Item ID</th>
-//               <th className="px-4 py-2 text-left text-sm font-medium text-white">Item Name</th>
-//               <th className="px-4 py-2 text-left text-sm font-medium text-white">Quantity</th>
-              
-              
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {logs.map((log, index) => (
-//               <tr
-//                 key={index}
-//                 className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-//               >
-//                 <td className="px-4 py-2 text-sm text-gray-800">{log.item_id}</td>
-//                 <td className="px-4 py-2 text-sm text-gray-800">{log.item_name}</td>
-//                 <td className="px-4 py-2 text-sm text-gray-800">{log.quantity}</td>
-                
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-      
-//     </div>
-//   );
-// };
-
-// export default StockListPage;
-
 import { useState, useEffect } from "react";
 import { allListStocks } from "../hooks/stockList";
+import { useUpdateStock } from "../hooks/useUpdateStock";
+import { useAuth } from "../../../features/auth/hooks/useAuth";
+import { Navigate } from "react-router-dom";
 
 const StockListPage = () => {
-  const { logs, loading, error } = allListStocks();
+  const { user, loading: authLoading } = useAuth();
+
+  const { logs, loading: listLoading, error: listError } = allListStocks();
+  const {
+    handleUpdateStock,
+    loading: updateLoading,
+    error: updateError,
+    success,
+  } = useUpdateStock();
 
   const [formData, setFormData] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
+
+
+
+  // 🔐 Auth Check
+  if (authLoading) {
+    return <div>Checking authentication...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/" />;
+  }
+
+  if (user.role !== "admin") {
+    return <Navigate to="/403" />;
+  }
 
   useEffect(() => {
     if (logs?.length) {
@@ -64,11 +43,11 @@ const StockListPage = () => {
     }
   }, [logs]);
 
-  if (loading) return <p className="text-gray-500">Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (listLoading) return <p className="text-gray-500">Loading...</p>;
+  if (listError) return <p className="text-red-500">{listError}</p>;
 
   const updateQuantity = (item_id, newQuantity) => {
-    if (newQuantity < 0) return; // prevent negative
+    if (newQuantity < 0) return;
 
     setFormData((prev) =>
       prev.map((item) =>
@@ -84,29 +63,45 @@ const StockListPage = () => {
     setShowConfirm(true);
   };
 
-  const confirmSubmit = () => {
-    console.log("Payload to backend:", formData);
-    setShowConfirm(false);
+  const confirmSubmit = async () => {
+    try {
+      await handleUpdateStock(formData);
+      setShowConfirm(false);
+    } catch (err) {
+      console.error("Update failed", err);
+    }
   };
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen bg-gray-50 py-10 px-4">
+      <div className="max-w-6xl mx-auto">
       <h2 className="text-2xl text-emerald-900 font-semibold mb-4">
         Stock List
       </h2>
+      <div className="overflow-x-auto bg-white rounded-xl shadow-md"></div>
+
+      {updateError && (
+        <p className="text-red-500 mb-4">{updateError}</p>
+      )}
+
+      {success && (
+        <p className="text-green-600 mb-4">
+          Stock updated successfully.
+        </p>
+      )}
 
       <form onSubmit={handleSubmit}>
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-200 rounded-lg shadow-sm">
+          <table className="min-w-[700px] w-full border-collapse">
             <thead className="bg-emerald-700">
               <tr>
-                <th className="px-4 py-2 text-left text-sm font-medium text-white">
+                <th className="px-6 py-3 text-left text-sm font-medium text-white">
                   Item ID
                 </th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-white">
+                <th className="px-6 py-3 text-left text-sm font-medium text-white">
                   Item Name
                 </th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-white">
+                <th className="px-6 py-3 text-left text-sm font-medium text-white">
                   Quantity
                 </th>
               </tr>
@@ -123,7 +118,7 @@ const StockListPage = () => {
                     key={log.item_id}
                     className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
                   >
-                    <td className="px-4 py-2 text-sm text-gray-800">
+                    <td className="px-4 py-2 text-sm text-gray-800 item-centre">
                       {log.item_id}
                     </td>
 
@@ -132,7 +127,7 @@ const StockListPage = () => {
                     </td>
 
                     <td className="px-4 py-2 text-sm text-gray-800">
-                      <div className="items-center space-x-2">
+                      <div className="flex items-center space-x-2">
                         <button
                           type="button"
                           onClick={() =>
@@ -141,7 +136,7 @@ const StockListPage = () => {
                               (currentItem?.quantity || 0) - 1
                             )
                           }
-                          className="px-2 py-1 bg-red-500 rounded hover:bg-red-600"
+                          className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                         >
                           -
                         </button>
@@ -156,7 +151,7 @@ const StockListPage = () => {
                               Number(e.target.value)
                             )
                           }
-                          className="border rounded px-2 py-1 w-25 text-center"
+                          className="border rounded px-2 py-1 w-20 text-center"
                         />
 
                         <button
@@ -167,7 +162,7 @@ const StockListPage = () => {
                               (currentItem?.quantity || 0) + 1
                             )
                           }
-                          className="px-2 py-1 bg-green-500 rounded hover:bg-green-600"
+                          className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
                         >
                           +
                         </button>
@@ -183,9 +178,10 @@ const StockListPage = () => {
         <div className="mt-6">
           <button
             type="submit"
-            className="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700"
+            disabled={updateLoading}
+            className="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 disabled:opacity-50"
           >
-            Submit Updates
+            {updateLoading ? "Updating..." : "Submit Updates"}
           </button>
         </div>
       </form>
@@ -197,6 +193,7 @@ const StockListPage = () => {
             <h3 className="text-lg font-semibold mb-4">
               Confirm Submission
             </h3>
+
             <p className="text-sm text-gray-600 mb-6">
               Are you sure you want to submit these stock updates?
             </p>
@@ -219,6 +216,8 @@ const StockListPage = () => {
           </div>
         </div>
       )}
+      </div>
+      <div className="overflow-x-auto bg-white rounded-xl shadow-md"></div>
     </div>
   );
 };

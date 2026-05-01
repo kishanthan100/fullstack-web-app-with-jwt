@@ -22,7 +22,7 @@ const CreateItems = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4" >
-      <div className="max-w-sm w-full  rounded-lg shadow-md p-5">
+      <div className="max-w-sm w-auto  rounded-lg shadow-md p-5">
       <h2  className="text-2xl text-emerald-900 font-semibold mb-4">Create Item</h2>
 
       {error && <p className="text-red-500 mb-2">{error}</p>}

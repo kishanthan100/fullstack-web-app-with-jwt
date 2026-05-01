@@ -9,17 +9,20 @@ const ItemListPage = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="p-6" >
+    <div className="min-h-screen bg-gray-50 py-10 px-4" >
+      {/* Centered container */}
+    <div className="max-w-6xl mx-auto">
+      
       <h2 className="text-2xl text-emerald-900 font-semibold mb-4">User Logs</h2>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-200 rounded-lg shadow-sm">
+      <div className="overflow-x-auto bg-white rounded-xl shadow-md">
+        <table className="min-w-[700px] w-full border-collapse">
           <thead className="bg-emerald-700">
             <tr>
-              <th className="px-4 py-2 text-left text-sm font-medium text-white">Item ID</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-white">Item Name</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-white">Category</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-white">Action</th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-white">Item ID</th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-white">Item Name</th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-white">Category</th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-white">Action</th>
 
               
             </tr>
@@ -46,6 +49,9 @@ const ItemListPage = () => {
             ))}
           </tbody>
         </table>
+       
+    </div>
+      
       </div>
       <ConfirmDeleteModal
         isOpen={selectedId !== null}

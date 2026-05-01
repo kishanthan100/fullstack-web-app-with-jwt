@@ -20,5 +20,14 @@ class ItemStockResponse(BaseModel):
     item_name: str
     quantity: int
 
+class StockUpsertItem(BaseModel):
+    item_id: int
+    quantity: float  # prevent negative values
+    
+class BulkStockUpsert(BaseModel):
+    stocks: List[StockUpsertItem]
+
+
+
     class config:
         orm_mode = True

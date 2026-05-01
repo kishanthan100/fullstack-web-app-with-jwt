@@ -1,10 +1,24 @@
 import { useUserLogs } from "../hooks/useUserLogs";
-
+import { useAuth } from "../../auth/hooks/useAuth"
+import { Navigate } from "react-router-dom";
 const UserLogsPage = () => {
   const { logs, loading, error } = useUserLogs();
-
+  const { user, loading: authLoading } = useAuth();
   if (loading) return <p className="text-gray-500">Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
+
+   // 🔐 Auth Check
+  if (authLoading) {
+    return <div>Checking authentication...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/" />;
+  }
+
+  if (user.role !== "admin") {
+    return <Navigate to="/403" />;
+  }
 
   return (
     <div className="flex-1 min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8" >

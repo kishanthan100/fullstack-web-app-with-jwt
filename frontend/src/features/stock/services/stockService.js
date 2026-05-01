@@ -5,3 +5,8 @@ export const listStock = async () => {
   return response.data;
 };
 
+
+export const updateStock = async (stocksPayload) => {
+  const response = await api.put("/bulk-upsert", stocksPayload);
+  return response.data;
+};

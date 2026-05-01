@@ -38,8 +38,8 @@ def decode_access_token(token: str):
 
 def get_current_user(request: Request):
     access_token = request.cookies.get("access_token")
-    print("Cookies:", request.cookies)
-    print("Access token from cookie:", access_token)
+    # print("Cookies:", request.cookies)
+    # print("Access token from cookie:", access_token)
     if not access_token:
         raise HTTPException(status_code=401, detail="Not authenticated: access token missing")
     try:

@@ -4,6 +4,7 @@ import { useState } from "react";
 const Sidebar = ({ isOpen }) => {
   const [itemOpen, setItemOpen] = useState(false);
   const [stockOpen, setStockOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
 
   const baseStyle =
     "block px-4 py-2 rounded-lg transition duration-200";
@@ -33,25 +34,49 @@ const Sidebar = ({ isOpen }) => {
             Dashboard
           </NavLink>
 
-          <NavLink to="/my-logs" className={({ isActive }) =>
-            `${baseStyle} ${
-              isActive
-                ? "bg-white text-emerald-900 font-semibold"
-                : "hover:bg-emerald-600"
-            }`
-          }>
-            My Logs
-          </NavLink>
+          
 
-          <NavLink to="/user-logs" className={({ isActive }) =>
-            `${baseStyle} ${
-              isActive
-                ? "bg-white text-emerald-900 font-semibold"
-                : "hover:bg-emerald-600"
-            }`
-          }>
-            All User Logs
-          </NavLink>
+          {/* Items Parent */}
+          <button
+            onClick={() => setUserOpen(!userOpen)}
+            className={`${baseStyle} hover:bg-emerald-600 w-full text-left`}
+          >
+            User Logs
+          </button>
+
+          {/* Sub Menu */}
+          {userOpen && (
+            <div className="ml-4 space-y-1">
+              <NavLink
+                to="/my-logs"
+                className={({ isActive }) =>
+                  `${baseStyle} text-sm ${
+                    isActive
+                      ? "bg-white text-emerald-900 font-semibold"
+                      : "hover:bg-emerald-600"
+                  }`
+                }
+              >
+                My Logs
+              </NavLink>
+
+              <NavLink
+                to="/user-logs"
+                className={({ isActive }) =>
+                  `${baseStyle} text-sm ${
+                    isActive
+                      ? "bg-white text-emerald-900 font-semibold"
+                      : "hover:bg-emerald-600"
+                  }`
+                }
+              >
+                All Users Logs
+              </NavLink>
+              
+
+              
+            </div>
+          )}
 
           {/* Items Parent */}
           <button
@@ -107,7 +132,7 @@ const Sidebar = ({ isOpen }) => {
           {stockOpen && (
             <div className="ml-4 space-y-1">
               <NavLink
-                to="/list-stock"
+                to="/stock/stock-list"
                 className={({ isActive }) =>
                   `${baseStyle} text-sm ${
                     isActive
@@ -120,7 +145,7 @@ const Sidebar = ({ isOpen }) => {
               </NavLink>
 
               <NavLink
-                to="/create-items"
+                to="/stock/update-stock"
                 className={({ isActive }) =>
                   `${baseStyle} text-sm ${
                     isActive
@@ -129,7 +154,7 @@ const Sidebar = ({ isOpen }) => {
                   }`
                 }
               >
-                Create Stock
+                Update Stock
               </NavLink>
               
 
