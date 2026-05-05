@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setUser(null);
       localStorage.setItem("logout", Date.now());
+      
     }
   };
 
