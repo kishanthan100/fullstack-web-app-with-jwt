@@ -11,6 +11,11 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
+    UNAME: str
+    UEMAIL: str
+    USERPASS: str
+    ROLE: str
+
     class Config:
         env_file = ".env"
 settings = Settings()

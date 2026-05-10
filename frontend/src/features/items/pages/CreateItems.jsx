@@ -14,7 +14,7 @@ const CreateItems = () => {
 
     try {
       await handleCreate(item_name, category);
-      navigate("/list-items"); // go back to list
+      navigate("/item/list-items"); // go back to list
     } catch (err) {
       console.error("Create failed", err);
     }
@@ -44,23 +44,27 @@ const CreateItems = () => {
               required
               />
         </div>
-
+        
         <div>
           <label 
-              htmlFor="category" 
-              className="block text-lg text-emerald-900 font-medium  mb-2"
-            >
-              Category
-            </label>
-          <input
-            type="text"
-            placeholder="Category"
+            htmlFor="category" 
+            className="block text-lg text-emerald-900 font-medium mb-2"
+          >
+            Category
+          </label>
+          <select
+            id="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-800 focus:border-transparent transition duration-200 text-black"
-          required
-        />
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-800 focus:border-transparent transition duration-200 text-black bg-white"
+            required
+          >
+            <option value="" disabled>Select a category</option>
+            <option value="vegetable">vegetable</option>
+            <option value="fruit">fruit</option>
+          </select>
         </div>
+
         <button
           type="submit"
           className="bg-emerald-700 text-white px-4 py-2 rounded hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 font-medium"

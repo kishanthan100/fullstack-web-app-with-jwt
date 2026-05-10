@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.postgres import Item
-
+from sqlalchemy import select,func
 
 class ItemRepository:
     def __init__(self, db: Session):
@@ -32,3 +32,10 @@ class ItemRepository:
             self.db.delete(item)
             self.db.commit()
         return item
+
+    def count_items(self) -> int:
+        # Standard 2.0 syntax: select count(*) from items
+        query = select(func.count()).select_from(Item)
+        result = self.db.execute(query)
+        return result.scalar()
+        
