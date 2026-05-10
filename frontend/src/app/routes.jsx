@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "../features/auth/pages/Login";
-import Home from "../features/dashboard/pages/Home";
+import DashboardPage from "../features/dashboard/pages/Home";
 import ProtectedRoute from "../shared/components/ProtectedRoute";
 import UserLogsPage from "../features/user/pages/UserLogsPage";
 import UserListPage from "../features/user/pages/UserLIst";
@@ -32,7 +32,7 @@ export default function AppRoutes() {
         }
       >
         <Route path="/user/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<DashboardPage />} />
         <Route path="/user/user-list" element={<UserListPage />} />
         <Route path="/user/user-logs" element={<UserLogsPage />} />
         <Route path="/user/my-logs" element={<AllLogsOfOneUser />} />

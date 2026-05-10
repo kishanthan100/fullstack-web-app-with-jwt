@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.postgres import Customers
 from datetime import datetime
 from app.schemas.customer_schema import CreateCustomer
+from sqlalchemy import select,func
 
 class CustomerRepository:
     def __init__(self,db:Session):
@@ -26,7 +27,11 @@ class CustomerRepository:
         return self.db.query(Customers).all() 
 
     
-
+    def count_customer(self) -> int:
+        # Standard 2.0 syntax: select count(*) from items
+        query = select(func.count()).select_from(Customers)
+        result = self.db.execute(query)
+        return result.scalar()
 
 
         

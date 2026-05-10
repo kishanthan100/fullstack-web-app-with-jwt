@@ -31,3 +31,6 @@ class CustomerService:
 
     def get_customers(self):
         return self.repo.get_customers()
+
+    def get_count_customers(self) -> int:
+        return self.repo.count_customer()

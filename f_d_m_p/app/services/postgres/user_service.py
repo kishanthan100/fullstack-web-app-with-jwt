@@ -59,3 +59,6 @@ class UserService:
         if not verify_password(password, user.password):
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password")
         return user
+    
+    def get_count_users(self) -> int:
+        return self.repo.count_user()

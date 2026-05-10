@@ -5,12 +5,26 @@ from app.api.endpoints.auth_route import router as auth_router
 from app.api.endpoints.user import user_route
 from app.api.endpoints.stocks import stock_route
 from app.api.endpoints.customers import customer_route
-from app.db.postgres import engine, Base
+from app.api.endpoints.dashboard import dashboard_route
+from app.db.postgres import engine, Base, SessionLocal
+from app.db.seeds import seed_db
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # This runs when the app starts
+    db = SessionLocal()
+    try:
+        seed_db(db)
+    finally:
+        db.close()
+    yield
 
 app= FastAPI(
     title="FastAPI with Postgres",
     description="A simple FastAPI application with PostgreSQL database",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 origins = [
@@ -32,3 +46,4 @@ app.include_router(user_route.router,prefix="/api",tags=["Users"])
 app.include_router(items_route.router,prefix="/api",tags=["Items"])
 app.include_router(stock_route.router, prefix="/api",tags=["Stocks"] )
 app.include_router(customer_route.router, prefix="/api",tags=["Customers"] )
+app.include_router(dashboard_route.router, prefix="/api",tags=["Dashboard"] )

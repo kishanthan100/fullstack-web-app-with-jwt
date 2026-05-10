@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.postgres import User
+from sqlalchemy import select, func
 
 
 class UserRepository:
@@ -39,3 +40,11 @@ class UserRepository:
             self.db.delete(user)
             self.db.commit()
         return user
+
+    
+    def count_user(self) -> int:
+        # Standard 2.0 syntax: select count(*) from items
+        query = select(func.count()).select_from(User)
+        result = self.db.execute(query)
+        return result.scalar()
+        

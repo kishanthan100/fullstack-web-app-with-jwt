@@ -2,6 +2,7 @@ from app.repositories.postgres.item_repositories import ItemRepository
 from app.repositories.redis.item_cache_repository import CacheRepository
 
 
+
 class ItemService:
 
     def __init__(self, db):
@@ -41,4 +42,10 @@ class ItemService:
         cache_key = "items"
         self.cache.delete(cache_key)
         return item
+    
+    def get_count_items(self) -> int:
+        return self.repo.count_items()
+
+        
+
         
