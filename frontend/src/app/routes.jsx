@@ -3,7 +3,7 @@ import Login from "../features/auth/pages/Login";
 import DashboardPage from "../features/dashboard/pages/Home";
 import ProtectedRoute from "../shared/components/ProtectedRoute";
 import UserLogsPage from "../features/user/pages/UserLogsPage";
-import UserListPage from "../features/user/pages/UserLIst";
+import UserListPage from "../features/user/pages/UserList";
 import MainLayout from "../layouts/MainLayout";
 import Register from "../features/auth/pages/Register";
 import AllLogsOfOneUser from "../features/user/pages/AllLogsOfOneUser";
